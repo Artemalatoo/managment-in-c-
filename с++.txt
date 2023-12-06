@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+const int SIZE = 8;
+const int MAX_VALUE = SIZE / 2;
+
+void displayBoard(const vector<int>& board, const vector<bool>& revealed) {
+    for (int i = 0; i < SIZE; ++i) {
+        if (revealed[i]) {
+            cout << board[i] << " ";
+        } else {
+            cout << "X ";
+        }
+
+        if ((i + 1) % 4 == 0) {
+            cout << endl;
+        }
+    }
+}
+
+bool isGameOver(const vector<bool>& revealed) {
+    for (bool card : revealed) {
+        if (!card) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    vector<int> cards;
+    vector<bool> revealed(SIZE, false);
+
+    srand(time(nullptr));
+
+    for (int i = 0; i < MAX_VALUE; ++i) {
+        cards.push_back(i + 1);
+        cards.push_back(i + 1);
+    }
+
+    random_shuffle(cards.begin(), cards.end());
+
+    int moves = 0;
+    while (!isGameOver(revealed)) {
+        system("clear");
+        displayBoard(cards, revealed);
+
+        int index1, index2;
+        cout << "Enter two indices to flip cards: ";
+        cin >> index1 >> index2;
+
+        if (index1 < 0 || index1 >= SIZE || index2 < 0 || index2 >= SIZE || revealed[index1] || revealed[index2]) {
+            cout << "Invalid indices or cards already revealed. Try again." << endl;
+            continue;
+        }
+
+        revealed[index1] = true;
+        revealed[index2] = true;
+
+        if (cards[index1] == cards[index2]) {
+            cout << "Match found!" << endl;
+        } else {
+            cout << "No match. Cards flipped back." << endl;
+            revealed[index1] = false;
+            revealed[index2] = false;
+        }
+
+        ++moves;
+    }
+
+    system("clear");
+    cout << "Congratulations! You've matched all pairs in " << moves << " moves!" << endl;
+
+    return 0;
+}
