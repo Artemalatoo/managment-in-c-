@@ -1,78 +1,83 @@
 #include <iostream>
 #include <vector>
-#include <cstdlib>
-#include <ctime>
 using namespace std;
 
-const int SIZE = 8;
-const int MAX_VALUE = SIZE / 2;
+const int SIZE = 5;
 
-void displayBoard(const vector<int>& board, const vector<bool>& revealed) {
+void displayBoard(vector<vector<char>>& board) {
+    cout << "  ";
     for (int i = 0; i < SIZE; ++i) {
-        if (revealed[i]) {
-            cout << board[i] << " ";
-        } else {
-            cout << "X ";
-        }
+        cout << i << " ";
+    }
+    cout << endl;
 
-        if ((i + 1) % 4 == 0) {
-            cout << endl;
+    for (int i = 0; i < SIZE; ++i) {
+        cout << i << " ";
+        for (int j = 0; j < SIZE; ++j) {
+            cout << board[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+bool isValidPlacement(vector<vector<char>>& board, int row, int col) {
+    return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] == '-';
+}
+
+void placeShips(vector<vector<char>>& board) {
+    int ships = SIZE; // Number of ships equal to board size
+
+    while (ships > 0) {
+        int row = rand() % SIZE;
+        int col = rand() % SIZE;
+
+        if (isValidPlacement(board, row, col)) {
+            board[row][col] = 'S';
+            ships--;
         }
     }
 }
 
-bool isGameOver(const vector<bool>& revealed) {
-    for (bool card : revealed) {
-        if (!card) {
-            return false;
-        }
-    }
-    return true;
+bool isHit(vector<vector<char>>& board, int row, int col) {
+    return board[row][col] == 'S';
 }
 
 int main() {
-    vector<int> cards;
-    vector<bool> revealed(SIZE, false);
+    vector<vector<char>> board(SIZE, vector<char>(SIZE, '-'));
 
-    srand(time(nullptr));
+    placeShips(board);
 
-    for (int i = 0; i < MAX_VALUE; ++i) {
-        cards.push_back(i + 1);
-        cards.push_back(i + 1);
-    }
+    int attempts = SIZE * SIZE;
+    int hits = 0;
 
-    random_shuffle(cards.begin(), cards.end());
+    while (attempts > 0 && hits < SIZE) {
+        cout << "Attempts left: " << attempts << endl;
+        displayBoard(board);
 
-    int moves = 0;
-    while (!isGameOver(revealed)) {
-        system("clear");
-        displayBoard(cards, revealed);
+        int row, col;
+        cout << "Enter row and column to attack (0-" << SIZE - 1 << "): ";
+        cin >> row >> col;
 
-        int index1, index2;
-        cout << "Enter two indices to flip cards: ";
-        cin >> index1 >> index2;
-
-        if (index1 < 0 || index1 >= SIZE || index2 < 0 || index2 >= SIZE || revealed[index1] || revealed[index2]) {
-            cout << "Invalid indices or cards already revealed. Try again." << endl;
-            continue;
-        }
-
-        revealed[index1] = true;
-        revealed[index2] = true;
-
-        if (cards[index1] == cards[index2]) {
-            cout << "Match found!" << endl;
+        if (isValidPlacement(board, row, col)) {
+            attempts--;
+            if (isHit(board, row, col)) {
+                cout << "Hit!" << endl;
+                board[row][col] = 'X';
+                hits++;
+            } else {
+                cout << "Miss!" << endl;
+                board[row][col] = 'O';
+            }
         } else {
-            cout << "No match. Cards flipped back." << endl;
-            revealed[index1] = false;
-            revealed[index2] = false;
+            cout << "Invalid input or already guessed!" << endl;
         }
-
-        ++moves;
     }
 
-    system("clear");
-    cout << "Congratulations! You've matched all pairs in " << moves << " moves!" << endl;
+    if (hits == SIZE) {
+        cout << "Congratulations! You sank all the ships!" << endl;
+    } else {
+        cout << "Game over! Ships remaining." << endl;
+    }
 
     return 0;
 }
