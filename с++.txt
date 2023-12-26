@@ -1,83 +1,78 @@
 #include <iostream>
-#include <vector>
-using namespace std;
+#include <cstdlib>
+#include <ctime>
 
-const int SIZE = 5;
+const int NUM_CARDS = 20;
+int cards[NUM_CARDS];
 
-void displayBoard(vector<vector<char>>& board) {
-    cout << "  ";
-    for (int i = 0; i < SIZE; ++i) {
-        cout << i << " ";
+void initializeCards() {
+    for (int i = 0; i < NUM_CARDS; ++i) {
+        cards[i] = i % (NUM_CARDS / 2) + 1; // Generating pairs of numbers
     }
-    cout << endl;
+    // Shuffle the cards
+    srand(time(NULL));
+    for (int i = 0; i < NUM_CARDS; ++i) {
+        int randomIndex = rand() % NUM_CARDS;
+        int temp = cards[i];
+        cards[i] = cards[randomIndex];
+        cards[randomIndex] = temp;
+    }
+}
 
-    for (int i = 0; i < SIZE; ++i) {
-        cout << i << " ";
-        for (int j = 0; j < SIZE; ++j) {
-            cout << board[i][j] << " ";
+void displayCards() {
+    std::cout << "Current Board:" << std::endl;
+    for (int i = 0; i < NUM_CARDS; ++i) {
+        if (i % 5 == 0) {
+            std::cout << std::endl;
         }
-        cout << endl;
-    }
-}
-
-bool isValidPlacement(vector<vector<char>>& board, int row, int col) {
-    return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] == '-';
-}
-
-void placeShips(vector<vector<char>>& board) {
-    int ships = SIZE; // Number of ships equal to board size
-
-    while (ships > 0) {
-        int row = rand() % SIZE;
-        int col = rand() % SIZE;
-
-        if (isValidPlacement(board, row, col)) {
-            board[row][col] = 'S';
-            ships--;
+        if (cards[i] == -1) {
+            std::cout << "X ";
+        } else {
+            std::cout << cards[i] << " ";
         }
     }
+    std::cout << std::endl << std::endl;
 }
 
-bool isHit(vector<vector<char>>& board, int row, int col) {
-    return board[row][col] == 'S';
+bool allMatched() {
+    for (int i = 0; i < NUM_CARDS; ++i) {
+        if (cards[i] != -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void game() {
+    initializeCards();
+    int moves = 0;
+    while (!allMatched()) {
+        displayCards();
+        int index1, index2;
+        std::cout << "Enter index of first card: ";
+        std::cin >> index1;
+        std::cout << "Enter index of second card: ";
+        std::cin >> index2;
+
+        if (index1 == index2 || index1 < 0 || index2 < 0 || index1 >= NUM_CARDS || index2 >= NUM_CARDS) {
+            std::cout << "Invalid indices. Please enter valid indices." << std::endl;
+            continue;
+        }
+
+        if (cards[index1] == cards[index2]) {
+            std::cout << "Match found!" << std::endl;
+            cards[index1] = cards[index2] = -1; // Keeping cards face up
+        } else {
+            std::cout << "No match. Try again." << std::endl;
+        }
+        moves++;
+    }
+
+    std::cout << "Congratulations! All pairs matched." << std::endl;
+    std::cout << "Total moves taken: " << moves << std::endl;
 }
 
 int main() {
-    vector<vector<char>> board(SIZE, vector<char>(SIZE, '-'));
-
-    placeShips(board);
-
-    int attempts = SIZE * SIZE;
-    int hits = 0;
-
-    while (attempts > 0 && hits < SIZE) {
-        cout << "Attempts left: " << attempts << endl;
-        displayBoard(board);
-
-        int row, col;
-        cout << "Enter row and column to attack (0-" << SIZE - 1 << "): ";
-        cin >> row >> col;
-
-        if (isValidPlacement(board, row, col)) {
-            attempts--;
-            if (isHit(board, row, col)) {
-                cout << "Hit!" << endl;
-                board[row][col] = 'X';
-                hits++;
-            } else {
-                cout << "Miss!" << endl;
-                board[row][col] = 'O';
-            }
-        } else {
-            cout << "Invalid input or already guessed!" << endl;
-        }
-    }
-
-    if (hits == SIZE) {
-        cout << "Congratulations! You sank all the ships!" << endl;
-    } else {
-        cout << "Game over! Ships remaining." << endl;
-    }
-
+    game();
     return 0;
 }
