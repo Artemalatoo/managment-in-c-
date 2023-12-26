@@ -1,0 +1,154 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+const int BOARD_SIZE = 6;
+const int SHIP_COUNT = 3;
+char board[BOARD_SIZE][BOARD_SIZE];
+
+struct Ship {
+    int row;
+    int col;
+};
+
+struct Player {
+    std::string name;
+    int shots;
+};
+
+void clearScreen() {
+    std::cout << "\033[2J\033[1;1H"; // ANSI escape code to clear the screen
+}
+
+void initializeBoard() {
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        for (int j = 0; j < BOARD_SIZE; ++j) {
+            board[i][j] = '.';
+        }
+    }
+}
+
+void displayBoard() {
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+        for (int j = 0; j < BOARD_SIZE; ++j) {
+            std::cout << board[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void placeShips(Ship ships[]) {
+    srand(time(NULL));
+    for (int i = 0; i < SHIP_COUNT; ++i) {
+        ships[i].row = rand() % BOARD_SIZE;
+        ships[i].col = rand() % BOARD_SIZE;
+    }
+}
+
+bool isHit(int row, int col, Ship ships[]) {
+    for (int i = 0; i < SHIP_COUNT; ++i) {
+        if (row == ships[i].row && col == ships[i].col) {
+            ships[i].row = -1; // Mark ship as sunk
+            return true;
+        }
+    }
+    return false;
+}
+
+bool isValid(int row, int col) {
+    return row >= 0 && row < BOARD_SIZE && col >= 0 && col < BOARD_SIZE;
+}
+
+bool isSunk(Ship ships[]) {
+    for (int i = 0; i < SHIP_COUNT; ++i) {
+        if (ships[i].row != -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void playGame(Player &player) {
+    Ship ships[SHIP_COUNT];
+    initializeBoard();
+    placeShips(ships);
+
+    while (!isSunk(ships)) {
+        clearScreen();
+        std::cout << "Player: " << player.name << std::endl;
+        std::cout << "Shots: " << player.shots << std::endl;
+        displayBoard();
+
+        int row, col;
+        std::cout << "Enter row and column to guess (0-" << BOARD_SIZE - 1 << "): ";
+        std::cin >> row >> col;
+
+        if (!isValid(row, col) || board[row][col] != '.') {
+            std::cout << "Invalid guess or already guessed location. Try again." << std::endl;
+            continue;
+        }
+
+        player.shots++;
+
+        if (isHit(row, col, ships)) {
+            std::cout << "Hit!" << std::endl;
+            board[row][col] = 'H';
+        } else {
+            std::cout << "Miss!" << std::endl;
+            board[row][col] = 'M';
+        }
+    }
+
+    clearScreen();
+    std::cout << "Congratulations! All ships sunk!" << std::endl;
+    std::cout << "Player: " << player.name << std::endl;
+    std::cout << "Total shots taken: " << player.shots << std::endl;
+}
+
+void displayPlayers(Player players[], int playerCount) {
+    // Sort players based on shots taken (bubble sort)
+    for (int i = 0; i < playerCount - 1; ++i) {
+        for (int j = 0; j < playerCount - i - 1; ++j) {
+            if (players[j].shots > players[j + 1].shots) {
+                Player temp = players[j];
+                players[j] = players[j + 1];
+                players[j + 1] = temp;
+            }
+        }
+    }
+
+    std::cout << "Players (sorted by shots taken):" << std::endl;
+    for (int i = 0; i < playerCount; ++i) {
+        std::cout << players[i].name << " - Shots: " << players[i].shots << std::endl;
+    }
+}
+
+int main() {
+    Player players[100];
+    int playerCount = 0;
+    bool playAgain = true;
+
+    while (playAgain) {
+        clearScreen();
+        std::cout << "Enter your name: ";
+        std::cin >> players[playerCount].name;
+
+        players[playerCount].shots = 0;
+
+        playGame(players[playerCount]);
+
+        playerCount++;
+
+        char choice;
+        std::cout << "Do you want to play again? (y/n): ";
+        std::cin >> choice;
+
+        if (choice != 'y') {
+            playAgain = false;
+            clearScreen();
+            displayPlayers(players, playerCount);
+        }
+    }
+
+    return 0;
+}
