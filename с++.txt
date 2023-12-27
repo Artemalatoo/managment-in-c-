@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <ctime>
 
+using namespace std;
+
 const int NUM_CARDS = 20;
 int cards[NUM_CARDS];
 
@@ -20,18 +22,18 @@ void initializeCards() {
 }
 
 void displayCards() {
-    std::cout << "Current Board:" << std::endl;
+    cout << "Current Board:" << endl;
     for (int i = 0; i < NUM_CARDS; ++i) {
         if (i % 5 == 0) {
-            std::cout << std::endl;
+            cout << endl;
         }
         if (cards[i] == -1) {
-            std::cout << "X ";
+            cout << "X ";
         } else {
-            std::cout << cards[i] << " ";
+            cout << cards[i] << " ";
         }
     }
-    std::cout << std::endl << std::endl;
+    cout << endl << endl;
 }
 
 bool allMatched() {
@@ -49,27 +51,27 @@ void game() {
     while (!allMatched()) {
         displayCards();
         int index1, index2;
-        std::cout << "Enter index of first card: ";
-        std::cin >> index1;
-        std::cout << "Enter index of second card: ";
-        std::cin >> index2;
+        cout << "Enter index of first card: ";
+        cin >> index1;
+        cout << "Enter index of second card: ";
+        cin >> index2;
 
         if (index1 == index2 || index1 < 0 || index2 < 0 || index1 >= NUM_CARDS || index2 >= NUM_CARDS) {
-            std::cout << "Invalid indices. Please enter valid indices." << std::endl;
+            cout << "Invalid indices. Please enter valid indices." << endl;
             continue;
         }
 
         if (cards[index1] == cards[index2]) {
-            std::cout << "Match found!" << std::endl;
+            cout << "Match found!" << endl;
             cards[index1] = cards[index2] = -1; // Keeping cards face up
         } else {
-            std::cout << "No match. Try again." << std::endl;
+            cout << "No match. Try again." << endl;
         }
         moves++;
     }
 
-    std::cout << "Congratulations! All pairs matched." << std::endl;
-    std::cout << "Total moves taken: " << moves << std::endl;
+    cout << "Congratulations! All pairs matched." << endl;
+    cout << "Total moves taken: " << moves << endl;
 }
 
 int main() {
