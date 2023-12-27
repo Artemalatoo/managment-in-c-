@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-
-const int BOARD_SIZE = 6;
+using namespace std;
+const int BOARD_SIZE = 4;
 const int SHIP_COUNT = 3;
 char board[BOARD_SIZE][BOARD_SIZE];
 
@@ -12,12 +12,12 @@ struct Ship {
 };
 
 struct Player {
-    std::string name;
+    string name;
     int shots;
 };
 
 void clearScreen() {
-    std::cout << "\033[2J\033[1;1H"; // ANSI escape code to clear the screen
+    // Code to clear the screen (platform dependent), not implemented here
 }
 
 void initializeBoard() {
@@ -31,9 +31,9 @@ void initializeBoard() {
 void displayBoard() {
     for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
-            std::cout << board[i][j] << " ";
+            cout << board[i][j] << " ";
         }
-        std::cout << std::endl;
+        cout << endl;
     }
 }
 
@@ -48,7 +48,7 @@ void placeShips(Ship ships[]) {
 bool isHit(int row, int col, Ship ships[]) {
     for (int i = 0; i < SHIP_COUNT; ++i) {
         if (row == ships[i].row && col == ships[i].col) {
-            ships[i].row = -1; // Mark ship as sunk
+            ships[i].row = -1; // Mark the ship as sunk
             return true;
         }
     }
@@ -75,38 +75,38 @@ void playGame(Player &player) {
 
     while (!isSunk(ships)) {
         clearScreen();
-        std::cout << "Player: " << player.name << std::endl;
-        std::cout << "Shots: " << player.shots << std::endl;
+        cout << "Player: " << player.name << endl;
+        cout << "Shots: " << player.shots << endl;
         displayBoard();
 
         int row, col;
-        std::cout << "Enter row and column to guess (0-" << BOARD_SIZE - 1 << "): ";
-        std::cin >> row >> col;
+        cout << "Enter row and column to guess (0-" << BOARD_SIZE - 1 << "): ";
+        cin >> row >> col;
 
         if (!isValid(row, col) || board[row][col] != '.') {
-            std::cout << "Invalid guess or already guessed location. Try again." << std::endl;
+            cout << "Invalid guess or already guessed location. Try again." << endl;
             continue;
         }
 
         player.shots++;
 
         if (isHit(row, col, ships)) {
-            std::cout << "Hit!" << std::endl;
+            cout << "Hit!" << endl;
             board[row][col] = 'H';
         } else {
-            std::cout << "Miss!" << std::endl;
+            cout << "Miss!" << endl;
             board[row][col] = 'M';
         }
     }
 
     clearScreen();
-    std::cout << "Congratulations! All ships sunk!" << std::endl;
-    std::cout << "Player: " << player.name << std::endl;
-    std::cout << "Total shots taken: " << player.shots << std::endl;
+    cout << "Congratulations! All ships are sunk!" << endl;
+    cout << "Player: " << player.name << endl;
+    cout << "Total shots taken: " << player.shots << endl;
 }
 
 void displayPlayers(Player players[], int playerCount) {
-    // Sort players based on shots taken (bubble sort)
+    // Sorting players by the number of shots (bubble sort)
     for (int i = 0; i < playerCount - 1; ++i) {
         for (int j = 0; j < playerCount - i - 1; ++j) {
             if (players[j].shots > players[j + 1].shots) {
@@ -117,31 +117,29 @@ void displayPlayers(Player players[], int playerCount) {
         }
     }
 
-    std::cout << "Players (sorted by shots taken):" << std::endl;
+    cout << "Players (sorted by shots taken):" << endl;
     for (int i = 0; i < playerCount; ++i) {
-        std::cout << players[i].name << " - Shots: " << players[i].shots << std::endl;
+        cout << players[i].name << " - Shots: " << players[i].shots << endl;
     }
 }
 
 int main() {
     Player players[100];
     int playerCount = 0;
-    bool playAgain = true;
+    char choice;
 
+    bool playAgain = true;
     while (playAgain) {
         clearScreen();
-        std::cout << "Enter your name: ";
-        std::cin >> players[playerCount].name;
-
+        cout << "Enter your name: ";
+        cin >> players[playerCount].name;
         players[playerCount].shots = 0;
 
         playGame(players[playerCount]);
-
         playerCount++;
 
-        char choice;
-        std::cout << "Do you want to play again? (y/n): ";
-        std::cin >> choice;
+        cout << "Do you want to play again? (y/n): ";
+        cin >> choice;
 
         if (choice != 'y') {
             playAgain = false;
