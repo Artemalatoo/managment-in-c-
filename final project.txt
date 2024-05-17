@@ -1,28 +1,158 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 struct Employee {
-    string name;            
-    double Salary;    
-    double tax; 
+    int id;
+    string name;
+    double hourlyRate;
+    double hoursWorked;
+    double grossPay;
+    double taxDeduction;
+    double otherDeductions;
+    double netPay;
 };
-double calculate(double Salary, double tax) {
-    const double hours = 40; 
-    double grossSalary = hours * Salary * 4;  
-    double taxes = grossSalary * (tax / 100);  
-    double netSalary = grossSalary - taxes;  
-    return netSalary;
+
+double calculateGrossPay(double hourlyRate, double hoursWorked) {
+    return hourlyRate * hoursWorked;
 }
-int main() {
+
+double calculateTaxDeduction(double grossPay) {
+    const double taxRate = 0.20; 
+    return grossPay * taxRate;
+}
+
+double calculateOtherDeductions(double grossPay) {
+    const double deductionRate = 0.05; 
+    return grossPay * deductionRate;
+}
+
+double calculateNetPay(double grossPay, double taxDeduction, double otherDeductions) {
+    return grossPay - taxDeduction - otherDeductions;
+}
+
+void processPayroll(Employee &emp) {
+    emp.grossPay = calculateGrossPay(emp.hourlyRate, emp.hoursWorked);
+    emp.taxDeduction = calculateTaxDeduction(emp.grossPay);
+    emp.otherDeductions = calculateOtherDeductions(emp.grossPay);
+    emp.netPay = calculateNetPay(emp.grossPay, emp.taxDeduction, emp.otherDeductions);
+}
+
+void printPaycheck(const Employee &emp) {
+    cout << "Paycheck for Employee ID: " << emp.id << endl;
+    cout << "Name: " << emp.name << endl;
+    cout << "Hours Worked: " << emp.hoursWorked << endl;
+    cout << "Hourly Rate: $" << emp.hourlyRate << endl;
+    cout << "Gross Pay: $" << emp.grossPay << endl;
+    cout << "Tax Deduction: $" << emp.taxDeduction << endl;
+    cout << "Other Deductions: $" << emp.otherDeductions << endl;
+    cout << "Net Pay: $" << emp.netPay << endl;
+    cout << "----------------------------------------" << endl;
+}
+
+void saveEmployeeData(const vector<Employee> &employees, const string &filename) {
+    ofstream outFile(filename); 
+    if (outFile.is_open()) {
+        for (const auto &emp : employees) {
+            outFile << emp.id << "," << emp.name << "," << emp.hourlyRate << ","
+                    << emp.hoursWorked << "," << emp.grossPay << "," << emp.taxDeduction << ","
+                    << emp.otherDeductions << "," << emp.netPay << endl;
+        }
+        outFile.close();
+    } else {
+        cerr << "Unable to open file for writing." << endl;
+    }
+}
+
+vector<Employee> loadEmployeeData(const string &filename) {
     vector<Employee> employees;
-    employees.push_back({"Jones", 20.0, 10.0});
-    employees.push_back({"Artem", 25.0, 15.0});
-    cout << "Employee Information:" << endl;
-    for (const auto& res : employees) {
-        cout<<"Name: " << res.name << endl;
-        cout<<"Hourly Salary: $" << res.Salary<<endl;
-        cout<<"Tax Withholdings (%): "<<res.tax << endl;
-        cout<<"Net Salary: $" <<calculate(res.Salary, res.tax) << endl;
-        cout<<endl;  
+    ifstream inFile(filename);
+    if (inFile.is_open()) {
+        string line;
+        while (getline(inFile, line)) {
+            stringstream ss(line);
+            Employee emp;
+            string token;
+            getline(ss, token, ','); emp.id = stoi(token);
+            getline(ss, token, ','); emp.name = token;
+            getline(ss, token, ','); emp.hourlyRate = stod(token);
+            getline(ss, token, ','); emp.hoursWorked = stod(token);
+            getline(ss, token, ','); emp.grossPay = stod(token);
+            getline(ss, token, ','); emp.taxDeduction = stod(token);
+            getline(ss, token, ','); emp.otherDeductions = stod(token);
+            getline(ss, token, ','); emp.netPay = stod(token);
+            employees.push_back(emp);
+        }
+        inFile.close();
+    } else {
+        cerr << "Unable to open file for reading." << endl;
+    }
+    return employees;
+}
+
+void displayAllSalaries(const vector<Employee> &employees) {
+    for (const auto &emp : employees) {
+        printPaycheck(emp);
+    }
+}
+
+void updateEmployeeData(vector<Employee> &employees) {
+    int id;
+    cout << "Enter employee ID to update: ";
+    cin >> id;
+    auto it = find_if(employees.begin(), employees.end(), [id](const Employee &emp) {
+        return emp.id == id;
+    });
+    if (it != employees.end()) {
+        Employee &emp = *it;
+        cout << "Enter new employee name: ";
+        cin.ignore();
+        getline(cin, emp.name);
+        cout << "Enter new hourly rate: ";
+        cin >> emp.hourlyRate;
+        cout << "Enter new hours worked: ";
+        cin >> emp.hoursWorked;
+        processPayroll(emp);
+        saveEmployeeData(employees, "data.txt");
+        cout << "Employee data updated successfully." << endl;
+    } else {
+        cout << "Employee ID not found." << endl;
+    }
+}
+
+int main() {
+    const string filename = "data.txt";
+    vector<Employee> employees = loadEmployeeData(filename);
+    
+    while (true) {
+        int choice;
+        cout << "1. Add new employee payroll\n2. Display all employee salaries\n3. Update employee data\n4. Exit\nChoose an option: ";
+        cin >> choice;
+        
+        if (choice == 1) {
+            Employee emp;
+            cout << "Enter employee ID: ";
+            cin >> emp.id;
+            cin.ignore(); 
+            cout << "Enter employee name: ";
+            getline(cin, emp.name);
+            cout << "Enter hourly rate: ";
+            cin >> emp.hourlyRate;
+            cout << "Enter hours worked: ";
+            cin >> emp.hoursWorked;
+
+            processPayroll(emp);
+            employees.push_back(emp);
+            saveEmployeeData(employees, filename);
+            printPaycheck(emp);
+        } else if (choice == 2) {
+            displayAllSalaries(employees);
+        } else if (choice == 3) {
+            updateEmployeeData(employees);
+        } else if (choice == 4) {
+            break;
+        } else {
+            cout << "Invalid option selected." << endl;
+        }
     }
 
     return 0;
