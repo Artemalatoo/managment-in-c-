@@ -57,3 +57,10 @@ Tax Deduction: $210
 Other Deductions: $52.5
 Net Pay: $787.5
 ----------------------------------------
+## File stucture
+id,name,hourlyRate,hoursWorked,grossPay,taxDeduction,otherDeductions,netPay
+## data.txt
+101,John Doe,25.5,40,1020,204,51,765
+102,Jane Smith,30,35,1050,210,52.5,787.5
+
+
