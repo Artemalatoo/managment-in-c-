@@ -1,10 +1,11 @@
-## INPUT
+SAMPLE INPUT AND OUTPUT
+Program Start:
 1. Add new employee payroll
 2. Display all employee salaries
 3. Update employee data
 4. Exit
 Choose an option: 1
-## OUTPUT
+Adding a New Employee:
 Enter employee ID: 101
 Enter employee name: John Doe
 Enter hourly rate: 25.5
@@ -20,13 +21,13 @@ Other Deductions: $51
 Net Pay: $765
 ----------------------------------------
 
-## INPUT 
+Main Menu After Adding Employee: 
 1. Add new employee payroll
 2. Display all employee salaries
 3. Update employee data
 4. Exit
 Choose an option: 2
-## OUTPUT
+Displaying All Employee Salaries:
 Paycheck for Employee ID: 101
 Name: John Doe
 Hours Worked: 40
@@ -36,13 +37,13 @@ Tax Deduction: $204
 Other Deductions: $51
 Net Pay: $765
 ----------------------------------------
-## INPUT
+Main Menu After Displaying Salaries:
 1. Add new employee payroll
 2. Display all employee salaries
 3. Update employee data
 4. Exit
 Choose an option: 1
-## OUTPUT
+Adding Another Employee:
 Enter employee ID: 102
 Enter employee name: Jane Smith
 Enter hourly rate: 30
