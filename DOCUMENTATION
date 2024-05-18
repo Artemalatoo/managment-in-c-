@@ -1,0 +1,59 @@
+## INPUT
+1. Add new employee payroll
+2. Display all employee salaries
+3. Update employee data
+4. Exit
+Choose an option: 1
+## OUTPUT
+Enter employee ID: 101
+Enter employee name: John Doe
+Enter hourly rate: 25.5
+Enter hours worked: 40
+
+Paycheck for Employee ID: 101
+Name: John Doe
+Hours Worked: 40
+Hourly Rate: $25.5
+Gross Pay: $1020
+Tax Deduction: $204
+Other Deductions: $51
+Net Pay: $765
+----------------------------------------
+
+## INPUT 
+1. Add new employee payroll
+2. Display all employee salaries
+3. Update employee data
+4. Exit
+Choose an option: 2
+## OUTPUT
+Paycheck for Employee ID: 101
+Name: John Doe
+Hours Worked: 40
+Hourly Rate: $25.5
+Gross Pay: $1020
+Tax Deduction: $204
+Other Deductions: $51
+Net Pay: $765
+----------------------------------------
+## INPUT
+1. Add new employee payroll
+2. Display all employee salaries
+3. Update employee data
+4. Exit
+Choose an option: 1
+## OUTPUT
+Enter employee ID: 102
+Enter employee name: Jane Smith
+Enter hourly rate: 30
+Enter hours worked: 35
+
+Paycheck for Employee ID: 102
+Name: Jane Smith
+Hours Worked: 35
+Hourly Rate: $30
+Gross Pay: $1050
+Tax Deduction: $210
+Other Deductions: $52.5
+Net Pay: $787.5
+----------------------------------------
