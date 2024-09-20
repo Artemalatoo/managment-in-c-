@@ -1,18 +1,17 @@
-[ https://slidesgo.com/editor/share/9c0bd9b8-f950-4f1d-8e6f-f73544bf4f31#rs=whatsapp](https://slidesgo.com/editor/share/9c1049e8-84cd-4a6f-8f8f-7bc7c2b72165#rs=link)
-# EMPLOYEE PAYROLL MANAGEMENT
+Student Class in Java
+Overview
+Welcome to the Student class! This Java program is designed to represent a student with key details like their name, ID, major, and GPA. Plus, it includes a friendly message to inspire students to study hard!
 
-## OVERVIEW
-The Employee Payroll Management system is designed to manage employee payrolls, including processing paychecks, calculating deductions, and tax withholdings. The system allows adding new employee payroll data, updating existing employee data, displaying all employee salaries, and saving/loading data to/from a file to ensure persistence.
+Class Structure
+Student Class
+Attributes
+name: A String representing the student’s name.
+id: An int that serves as the student’s unique identifier.
+major: A String indicating the student’s field of study.
+gpa: An int reflecting the student’s Grade Point Average.
+Methods
+Student(String n, int i, String m, int g): This is the constructor that sets up a new student with the provided name, ID, major, and GPA.
 
-## FEATURES
-**Add New Employee Payroll**: Allows adding new employees and calculates their payroll.
-**Display All Employee Salaries**: Displays the payroll information for all employees.
-**Update Employee Data**: Allows updating the payroll details for an existing employee.
-**Data Persistence**: Saves employee data to a file and loads it upon program start.
-**Continuous Operation**: The program runs in a loop, allowing multiple operations until the user chooses to exit.
-## FUNCTIONS
-**Payroll Calculations
-**double calculateGrossPay(double hourlyRate, double hoursWorked): Calculates the gross pay based on hourly rate and hours worked.
-**double calculateTaxDeduction(double grossPay): Calculates the tax deduction from the gross pay.
-**double calculateOtherDeductions(double grossPay): Calculates other deductions from the gross pay.
-**double calculateNetPay(double grossPay, double taxDeduction, double otherDeductions): Calculates the net pay after all deductions.
+static void displayInfo(): A static method that prints a motivational message to encourage students.
+
+static void main(String[] args): The main method where the program kicks off. It creates a Student object and displays all the student’s details.
