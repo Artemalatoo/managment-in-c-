@@ -1,6 +1,6 @@
 Student Class in Java
 Overview
-Welcome to the Student class! This Java program is designed to represent a student with key details like their name, ID, major, and GPA. Plus, it includes a friendly message to inspire students to study hard!
+This Java program is designed to represent a student with key details like their name, ID, major, and GPA. Plus, it includes a friendly message to inspire students to study hard!
 
 Class Structure
 Student Class
