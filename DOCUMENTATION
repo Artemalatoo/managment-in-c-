@@ -1,68 +1,12 @@
-SAMPLE INPUT AND OUTPUT
-Program Start:
-1. Add new employee payroll
-2. Display all employee salaries
-3. Update employee data
-4. Exit
-Choose an option: 1
-Adding a New Employee:
-Enter employee ID: 101
-Enter employee name: John Doe
-Enter hourly rate: 25.5
-Enter hours worked: 40
-
-Paycheck for Employee ID: 101
-Name: John Doe
-Hours Worked: 40
-Hourly Rate: $25.5
-Gross Pay: $1020
-Tax Deduction: $204
-Other Deductions: $51
-Net Pay: $765
-----------------------------------------
-
-Main Menu After Adding Employee: 
-1. Add new employee payroll
-2. Display all employee salaries
-3. Update employee data
-4. Exit
-Choose an option: 2
-Displaying All Employee Salaries:
-Paycheck for Employee ID: 101
-Name: John Doe
-Hours Worked: 40
-Hourly Rate: $25.5
-Gross Pay: $1020
-Tax Deduction: $204
-Other Deductions: $51
-Net Pay: $765
-----------------------------------------
-Main Menu After Displaying Salaries:
-1. Add new employee payroll
-2. Display all employee salaries
-3. Update employee data
-4. Exit
-Choose an option: 1
-Adding Another Employee:
-Enter employee ID: 102
-Enter employee name: Jane Smith
-Enter hourly rate: 30
-Enter hours worked: 35
-
-Paycheck for Employee ID: 102
-Name: Jane Smith
-Hours Worked: 35
-Hourly Rate: $30
-Gross Pay: $1050
-Tax Deduction: $210
-Other Deductions: $52.5
-Net Pay: $787.5
-----------------------------------------
-**File stucture
-id,name,hourlyRate,hoursWorked,grossPay,taxDeduction,otherDeductions,netPay
-**data.txt
-101,John Doe,25.5,40,1020,204,51,765
-102,Jane Smith,30,35,1050,210,52.5,787.5
-
-
-
++-------------------------+
+|        Student           |
++-------------------------+
+| - name: String           |
+| - id: int                |
+| - major: String          |
+| - gpa: int               |
++-------------------------+
+| + Student(n: String, i: int, m: String, g: int) |
+| + displayInfo(): void                           |
+| + main(args: String[]): void                    |
++-------------------------+
