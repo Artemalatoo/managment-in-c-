@@ -1,0 +1,72 @@
+import java.util.*;
+ enum TransactionType {
+    DEPOSIT,
+    WITHDRAWAL;
+}
+class PersonalAccount {
+    private double balance;
+    private String accountHolder;
+    private int accountNumber;
+    private List<Amount> transactions; 
+    private static class Amount {
+        private double amount;
+        private TransactionType transactionType;
+        public Amount(double amount, TransactionType transactionType) {
+            this.amount = amount;
+            this.transactionType = transactionType;
+        }
+        public double getAmount() {
+            return amount;
+        }
+        public TransactionType getTransactionType() {
+            return transactionType;
+        }
+    }
+    public PersonalAccount(String accountHolder, int accountNumber) {
+        this.balance = 0.0;
+        this.accountHolder = accountHolder;
+        this.accountNumber = accountNumber;
+        this.transactions = new ArrayList<>(); 
+    }
+    public void deposit(double amount) {
+        if (amount > 0) {
+            transactions.add(new Amount(amount, TransactionType.DEPOSIT));
+            balance += amount;
+        } else {
+            System.out.println("Deposit must be positive.");
+        }
+    }
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            transactions.add(new Amount(amount, TransactionType.WITHDRAWAL));
+            balance -= amount;
+        } else if (amount > balance) {
+            System.out.println("is not enough");
+        } else {
+            System.out.println("Withdrawal must be positive.");
+        }
+    }
+    public double getBalance() {
+        return balance;
+    }
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+    public void printTransactionHistory() {
+        System.out.println("Transaction  " + accountHolder + " (Account Number: " + accountNumber + "):");
+        for (Amount transaction : transactions) {
+            System.out.println(transaction.getTransactionType() + ": " + transaction.getAmount());
+        }
+    }
+    public static void main(String[] args) {
+        PersonalAccount account = new PersonalAccount("Jones", 900);
+        account.deposit(500);
+        account.withdraw(200);
+        account.withdraw(600); 
+        account.printTransactionHistory();
+        System.out.println("Current Balance: " + account.getBalance());
+    }
+}
