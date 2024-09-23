@@ -1,0 +1,32 @@
++----------------------+
+|    PersonalAccount   |
++----------------------+
+| - balance: double    |
+| - accountHolder: String |
+| - accountNumber: int |
+| - transactions: List<Transaction> |
++----------------------+
+| + PersonalAccount(accountHolder: String, accountNumber: int) |
+| + deposit(amount: double): void  |
+| + withdraw(amount: double): void  |
+| + getBalance(): double           |
+| + getAccountNumber(): int        |
+| + getAccountHolder(): String      |
+| + printTransactionHistory(): void |
++----------------------+
+          |
+          |
+          |
+          +------------------+
+          |                  |
++-----------------+    +-------------------+
+|    Transaction  |    |   TransactionType  |
++-----------------+    +-------------------+
+| - amount: double|    | <<enumeration>>    |
+| - transactionType: TransactionType |
++-----------------+    | - DEPOSIT         |
+| + Transaction(amount: double, transactionType: TransactionType) |
+| + getAmount(): double  |
+| + getTransactionType(): TransactionType |
++-----------------+    | - WITHDRAWAL      |
+                      +-------------------+
