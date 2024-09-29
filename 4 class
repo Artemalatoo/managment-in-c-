@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.*;//(PRIME)
 class Main{
     public static boolean isPrime(int n){
         if(n%2==0 || n%3==0 || n%5==0){
@@ -14,7 +14,7 @@ class Main{
         System.out.print(isPrime(n));
     }
 }
-import java.util.*;
+import java.util.*;//(FIBONACCI)
 
 class Main {
     public static int fib(int n) {
