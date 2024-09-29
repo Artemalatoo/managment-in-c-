@@ -1,0 +1,110 @@
+import java.util.*;
+public class ReverseNumber {
+    public int reverseNumber(int n) {
+        int reversed = 0;
+        
+        while (n != 0) {
+            int digit = n % 10; 
+            reversed = reversed * 10 + digit; 
+            n /= 10; 
+        }
+        
+        return reversed;
+    }
+
+    public static void main(String[] args) {
+        Scanner s=new Scanner (System.in);
+        ReverseNumber a = new ReverseNumber();
+        int n=s.nextInt();
+        int reverseNumber = a.reverseNumber(n);
+        System.out.print(reverseNumber);
+    }
+}
+import java.util.*;
+public class ArmstrongChecker {
+    public static boolean isArmstrongNumber(int n) {
+        int originalNumber = n;
+        int sum = 0;
+        int numberOfDigits = String.valueOf(n).length(); 
+        while (n > 0) {
+            int digit = n % 10; 
+            sum += Math.pow(digit, numberOfDigits); 
+            n /= 10; 
+        }
+        return sum == originalNumber;
+    }
+    public static void main(String[] args) {
+        Scanner s=new Scanner (System.in);
+        int n;
+        ArrayList<Integer>testNumbers=new ArrayList<>();
+        while(s.hasNextInt()){
+            n=s.nextInt();
+            testNumbers.add(n);
+        }
+        
+        for (int number : testNumbers) {
+            if (isArmstrongNumber(number)) {
+                System.out.println(number + " correct");
+            } else {
+                System.out.println(number + " wrong");
+            }
+        }
+    }
+}
+import java.util.*;
+public class DigitSumCalculator {
+    public static int sumOfDigits(int n) {
+        int sum = 0;
+        n = Math.abs(n);
+        while (n > 0) {
+            sum += n % 10; 
+            n /= 10;       
+        }
+
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        Scanner s=new Scanner (System.in);
+        int n;
+        ArrayList<Integer>testNumbers=new ArrayList<>();
+        while(s.hasNextInt()){
+            n=s.nextInt();
+            testNumbers.add(n);
+        }
+        for (int number : testNumbers) {
+            int digitSum = sumOfDigits(number);
+            System.out.println("The sum of the digits of " + number + " is " + digitSum + ".");
+        }
+    }
+}
+import java.util.*;
+public class PerfectNumberChecker {
+    public static boolean isPerfectNumber(int n) {
+        if (n <= 1) return false; 
+        int sum = 0;
+        for (int i = 1; i <= n / 2; i++) {
+            if (n % i == 0) {
+                sum += i; 
+            }
+        }
+        return sum == n;
+    }
+
+    public static void main(String[] args) {
+        Scanner s=new Scanner (System.in);
+        int n;
+        ArrayList<Integer>testNumbers=new ArrayList<>();
+        while(s.hasNextInt()){
+            n=s.nextInt();
+            testNumbers.add(n);
+        }
+        for (int number : testNumbers) {
+            if (isPerfectNumber(number)) {
+                System.out.println(number + " is a perfect number.");
+            } else {
+                System.out.println(number + " is not a perfect number.");
+            }
+        }
+    }
+}
