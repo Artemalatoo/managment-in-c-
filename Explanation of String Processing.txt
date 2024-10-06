@@ -1,0 +1,12 @@
+Explanation of StringProcessing code.
+1.First of all i used public static boolean strong(String password), so that
+the compiler will be able to indentify the strong password from invalid one.
+That's why i used some variables so that in the code there will be Uppercase,
+Lowcase letters, digit and one special sign. Moreover the password must be
+at least 8, so in the code i used this method if(password.length()<8)return 
+false;. And by method for(char c:password.toCharArray())-i include uppercase,
+lowcase, digit and special sign.
+2.Then i used the same method but there i used to count digit and words in
+a line, for example i used int cntdigit=0; and wordslength().
+3.Conclusion: i used Scanner... checked is password strong and ouput the 
+amount of digits and words.
