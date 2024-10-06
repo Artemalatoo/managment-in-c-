@@ -1,0 +1,62 @@
+Test Cases for strong(String password)
+Password: "Test@1234"
+Expected Output: Password is strong
+Reasoning: Contains uppercase ("T"), lowercase letters ("est"), a digit ("1234"), and a special character ("@"). Also, the length is more than 8 characters.
+
+Password: "weakpass"
+Expected Output: Password is not strong
+Reasoning: This password contains only lowercase letters and is missing digits, special characters, and uppercase letters. Also, it’s only 8 characters long.
+
+Password: "NOLOWERCASE1!"
+Expected Output: Password is not strong
+Reasoning: While it contains digits, special characters, and uppercase letters, it's missing lowercase letters. So, not good enough.
+
+Password: "Small@123"
+Expected Output: Password is strong
+Reasoning: Has uppercase ("S"), lowercase ("mall"), digits ("123"), and a special character ("@"). Length is 9, which is fine.
+
+Password: "12345678"
+Expected Output: Password is not strong
+Reasoning: This one is just numbers, with no letters or special characters. Even though the length is fine, it doesn’t meet the criteria.
+
+Test Cases for calculateDigit(String sentence)
+Sentence: "I have 3 apples and 2 bananas."
+Expected Output: 2
+Reasoning: There are two digits in the sentence: "3" and "2".
+
+Sentence: "No digits here."
+Expected Output: 0
+Reasoning: No numbers in the sentence, so it should return zero.
+
+Sentence: "1 apple + 1 banana = 2 fruits."
+Expected Output: 3
+Reasoning: The digits "1", "1", and "2" appear, so the count is three.
+
+Sentence: "My phone number is 555-1234."
+Expected Output: 7
+Reasoning: The digits are "5551234", which gives a total of 7.
+
+Sentence: "Year 2024 will be awesome."
+Expected Output: 4
+Reasoning: The number "2024" has 4 digits.
+
+Test Cases for calculateWords(String sentence)
+Sentence: "This is a test."
+Expected Output: 4
+Reasoning: The words are "This", "is", "a", and "test" — so, 4 words.
+
+Sentence: "3 dogs and 2 cats"
+Expected Output: 4
+Reasoning: Although "3" and "2" are digits, they are ignored as words. Only "dogs", "and", and "cats" are counted as valid words.
+
+Sentence: "Java is fun and challenging!"
+Expected Output: 5
+Reasoning: The words are "Java", "is", "fun", "and", "challenging", so that’s 5 words in total.
+
+Sentence: "Just 1 more time!"
+Expected Output: 3
+Reasoning: The "1" isn’t counted as a word, but "Just", "more", and "time" are. So, 3 words.
+
+Sentence: "A123B45 are just random numbers"
+Expected Output: 5
+Reasoning: The numbers mixed with letters like "A123B45" count as words since they contain letters, plus the words "are", "just", "random", and "numbers". Total: 5 words.
